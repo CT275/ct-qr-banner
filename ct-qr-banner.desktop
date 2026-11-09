@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=CT_QR Banner
+Comment=QR code banner for pack stations
+Exec=ct-qr-banner
+Icon=${SNAP}/meta/gui/ct-qr-banner.png
+Terminal=false
+Categories=Utility;

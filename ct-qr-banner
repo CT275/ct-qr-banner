@@ -1,0 +1,3 @@
+#!/bin/sh
+# Starts the banner with the Python bundled in the snap
+exec "$SNAP/usr/bin/python3" "$SNAP/app/qr_bandeau.py" "$@"

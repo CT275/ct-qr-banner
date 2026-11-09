@@ -1,0 +1,17 @@
+# =====================================================================
+#  CT_QR Banner - codes displayed on the station
+#  One code per line:   Label | QR content | stations (optional)
+#
+#  stations: empty = all stations · "12" · "12,13,20" · "1-10"
+#            (or the computer name, e.g. USA-D75069)
+#  Variables: {table} {hostname}  -> replaced with the station's values
+#  Lines starting with # are ignored.
+#  Changes are picked up automatically within 30 s.
+#
+#  Existing QR images? Put them in the images/ folder
+#  (the file name becomes the label: 01_Login_AFTX.png -> "Login AFTX").
+# =====================================================================
+
+Station | {hostname}
+# Login station | LOGIN-STATION-{table}
+# Manager badge | 12345678 | 1-10
