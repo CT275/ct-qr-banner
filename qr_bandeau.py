@@ -30,7 +30,7 @@ import warnings
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-VERSION = "1.3"
+VERSION = "1.4"
 ICI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ICI)
 import qrcodegen  # noqa: E402  (fourni à côté du script, licence MIT)
@@ -52,6 +52,9 @@ HOME = os.path.expanduser("~")
 DOSSIER_CONF = os.environ.get("QR_BANDEAU_CONF") or os.path.join(HOME, ".config", "qr-bandeau")
 DOSSIER_CACHE = os.path.join(HOME, ".cache", "qr-bandeau")
 CODE_DEJA_LANCE = 3
+# Store (snap) version: codes, images and logo come ONLY from the published package,
+# so every station displays exactly the reviewed and published codes (no local override).
+PAQUET_SEUL = bool(os.environ.get("SNAP"))
 
 # --------------------------------------------------------------------------
 # Utilitaires
@@ -188,7 +191,7 @@ def pour_cette_table(tables, ident):
 
 def lire_codes_txt():
     chemin = os.path.join(DOSSIER_CONF, "codes.txt")
-    if not os.path.isfile(chemin):
+    if PAQUET_SEUL or not os.path.isfile(chemin):
         chemin = os.path.join(ICI, "codes.txt")
     res = []
     if not os.path.isfile(chemin):
@@ -211,7 +214,7 @@ EXT_IMAGES = (".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp")
 
 def lire_images():
     dossier = os.path.join(DOSSIER_CONF, "images")
-    if not os.path.isdir(dossier) or not any(n.lower().endswith(EXT_IMAGES) for n in os.listdir(dossier)):
+    if PAQUET_SEUL or not os.path.isdir(dossier) or not any(n.lower().endswith(EXT_IMAGES) for n in os.listdir(dossier)):
         dossier = os.path.join(ICI, "images")  # images livrées avec le programme (version snap)
     res = []
     if not os.path.isdir(dossier):
@@ -403,7 +406,9 @@ class Bandeau:
         """Team logo on a white card at the top of the header (logo.png)."""
         if not self.cfg["afficher_logo"]:
             return None
-        chemin = next((c for c in (os.path.join(DOSSIER_CONF, "logo.png"), os.path.join(ICI, "logo.png"))
+        lieux = (os.path.join(ICI, "logo.png"),) if PAQUET_SEUL else \
+            (os.path.join(DOSSIER_CONF, "logo.png"), os.path.join(ICI, "logo.png"))
+        chemin = next((c for c in lieux
                        if os.path.isfile(c)), None)
         if not chemin:
             return None

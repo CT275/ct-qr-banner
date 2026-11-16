@@ -1,7 +1,7 @@
 name: ct-qr-banner
 title: CT_QR Banner
 base: core22
-version: '1.3'
+version: '1.4'
 summary: Permanent QR code banner for warehouse pack stations
 description: |
   Displays a strip of QR codes at the bottom of the pack station screen,
